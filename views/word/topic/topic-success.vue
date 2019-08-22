@@ -1,7 +1,7 @@
 <template>
    <div class="topic-success">
        <div :class="['success-icon',animateClass]">
-           <img src="../../assets/images/ico-success.png" alt="">
+           <img src="../../../assets/images/ico-success.png" alt="">
        </div>
    </div>
 </template>

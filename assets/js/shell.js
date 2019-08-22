@@ -48,7 +48,8 @@ var Shell = new (function(){
 		getSessionId:0,
 		setPageTitle:1,
 		share:5,
-		getLanguage:0	//当前语言
+		getLanguage:0,	//当前语言
+		getHttpHeaders:0	//APP header信息
 	};
 	
 	this.call=function(){
@@ -180,7 +181,7 @@ var Shell = new (function(){
 //输出
 export default {
 	Shell
-  }
+}
 
 
 /*

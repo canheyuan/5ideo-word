@@ -1,6 +1,5 @@
 <template>
     <div class="topic-page" >
-        
         <!-- 看词选图:type=1 -->
         <topic-choice @successFn='successFn' v-if='isTopicShow && subjectActData.type==1' :topicData='subjectActData'></topic-choice>
 
@@ -33,12 +32,12 @@
             <div class="mask_bg_ctn">
                 
                 <div class="close-page-tip-pop">
-                    <span class="close" @click='outTipPopFn("isOutPopShow")'><img src="../assets/images/ico-close2.png" alt=""></span>
-                    <h3 class="title">确认退出</h3>
-                    <p>词卡“食物”尚未完成，是否退出？</p>
-                    <a class="pop_btn01"  @click='outTipPopFn("isOutPopShow")'>继续答题</a>
-                    <a class="pop_btn02" @click="resetSubject('isOutPopShow')" >重新开始</a>
-                    <a class="pop_btn03" @click='gobackFn'>不想做了，我要退出</a>
+                    <span class="close" @click='outTipPopFn("isOutPopShow")'><img src="../../assets/images/ico-close2.png" alt=""></span>
+                    <h3 class="title">{{pageLang.outTitle[lang]}}</h3>
+                    <p>{{pageLang.outTip[lang]}}</p>
+                    <a class="pop_btn01"  @click='outTipPopFn("isOutPopShow")'>{{pageLang.continueBtn[lang]}}</a>
+                    <a class="pop_btn02" @click="resetSubject('isOutPopShow')" >{{pageLang.resetBtn[lang]}}</a>
+                    <a class="pop_btn03" @click='gobackFn'>{{pageLang.outBtn[lang]}}</a>
                 </div>
 
             </div>
@@ -48,10 +47,10 @@
         <div :class="['mask_bg',{'pop_show':isFinishPopShow}]" v-show='isFinishPopShow'>
             <div class="mask_bg_ctn">
                 <div class="close-page-tip-pop">
-                    <h3 class="title">恭喜你!</h3>
-                    <p>所有题目都已完成了</p>
-                    <a class="pop_btn01"  @click='resetSubject("isFinishPopShow")'>重新开始</a>
-                    <a class="pop_btn02" @click="gobackFn" >退出</a>
+                    <h3 class="title">{{pageLang.finishTitle[lang]}}</h3>
+                    <p>{{pageLang.finishTip[lang]}}</p>
+                    <a class="pop_btn01"  @click='resetSubject("isFinishPopShow")'>{{pageLang.continueBtn[lang]}}</a>
+                    <a class="pop_btn02" @click="gobackFn" >{{pageLang.outBtn2[lang]}}</a>
                 </div>
             </div>
         </div>
@@ -62,14 +61,15 @@
 
 
 <script>
-import '@/assets/css/word-topic.css'; 
+import '@/assets/css/word-topic.css';
+import lexiconData from '@/assets/data/lexiconData.js'    //静态题目
 
-import topicChoice from '@/views/topic/topic-choice';
-import topicSort from '@/views/topic/topic-sort';
-import topicJudge from '@/views/topic/topic-judge';
-import topicAnswer from '@/views/topic/topic-answer';
-import topicIntro from '@/views/topic/topic-intro';
-import topicSuccess from '@/views/topic/topic-success';
+import topicChoice from './topic/topic-choice';
+import topicSort from './topic/topic-sort';
+import topicJudge from './topic/topic-judge';
+import topicAnswer from './topic/topic-answer';
+import topicIntro from './topic/topic-intro';
+import topicSuccess from './topic/topic-success';
 
 export default {
     components: {
@@ -83,7 +83,7 @@ export default {
 	name: 'topicIndex',
 	data () {
 		return {
-            lang:this.$common.config.lang,
+            pageLang: this.$store.state.langData.wordTopic,    //语言包
             listId : this.$route.params.listId, //当前题目的listId
             isOutPopShow : false, //退出提示弹窗是否显示
             isFinishPopShow:false,  //题目已全部完成提示弹窗
@@ -110,18 +110,27 @@ export default {
 
     //节点完成后执行
     mounted(){
+        console.log('topic',this.$store.state.source);
+    },
+    created(){
         
-        //获取题目信息
-        this.getTopicList(true);
+        if(this.$store.state.source=='app'){
+            //设置页面标题栏
+            var param = {
+                title: this.$route.meta.title
+            }
+            this.$shell.setPageTitle(JSON.stringify(param));
+           this.getTopicList(true);
+        }else{
+            this.getH5TopicList();
+        }
     },
 
     //计算属性
     computed: {
-        //计算做题进度条
-        progressNum(){
-            //console.log('this.subjectDatas',this.subjectDatas);
+        lang(){ return this.$store.state.lan },    //获取语言
+        progressNum(){  //计算做题进度条
             return this.subjectDatas?parseInt(100*this.subjectDatas.masterLexiconNum/this.subjectDatas.totalLexiconNum):0;
-            //return parseInt(100*this.subjectIndex/this.subjectDatas.totalSubjectNum);
         }
     },
     methods:{
@@ -129,7 +138,8 @@ export default {
         //获取词卡练习列表
         getTopicList(isReach,callback){
             var _this = this;
-            _this.$common.axiosFn({
+            console.log(_this.$http)
+            _this.$http({
                 method:"post",
                 url:'/lexiconList/getLexiconListSubject',
                 params:{
@@ -138,7 +148,8 @@ export default {
                     batchSize:this.batchSize
                 },
                 success:(res)=>{
-                    console.log('词卡首页列表：',res.data.data);
+                    
+                    //console.log('词卡首页列表：',res.data.data);
                     // if(res.data.data.totalSubjectNum == 0){
                     //     return;
                     // }
@@ -182,6 +193,7 @@ export default {
                     this.subjectDatas = datas;
                     this.subjectIndex = 0;
                     this.isIntroShow = true;
+                    this.isTopicShow = false;
                    
                     if(datas.subject.length==0){    //当第一次获取的数据为0时，弹出已完成弹窗
                         this.isFinishPopShow = true;
@@ -191,49 +203,66 @@ export default {
                 error:(res)=>{
                     console.error('题目列表获取失败：',res);
                 }
+            },_this)
+        },
+
+        //获取静态题目数据
+        getH5TopicList(){
+            var datas = lexiconData.lexiconData
+            datas.subject.forEach((item,index)=>{
+                //处理添加交互需要的一些参数
+                switch(item.type){
+                    case 1:
+                        item.options.forEach(item2=>{
+                            item2.hover = false;
+                            item2.id = 'topic_' + item2.answer;
+                            if(item.answer == item2.answer){
+                                item.imgUrl = item2.imgUrl;
+                            }
+                        });
+                        break;
+
+                    case 2:
+                        item.options.forEach(item2=>{
+                            //left:'0',  top:'0',x:'0',y:'0',show:true,hover:false
+                            item2.hover = false; 
+                            item2.show = true;
+                            item2.left = 0; 
+                            item2.top = 0;
+                            item2.x = 0; 
+                            item2.y = 0;
+                            item2.id = 'topic_' + item2.answer;
+                        });
+                        break;
+
+                    case 3:
+                        item.options = [
+                            {answer:'false', id:'mistakeBtn', hover:false},
+                            {answer:'true', id:'correctBtn', hover:false},
+                        ]
+                        break;
+                }
             })
+            this.subjectActData = datas.subject[this.subjectIndex];
+            this.subjectDatas = datas;
+            this.subjectIndex = 0;
+            this.isIntroShow = true;
+            this.isTopicShow = false;
+            
 
         },
-        
+
         //介绍页跳转到题目
         gotoTopic(){
             this.isIntroShow = false;
             this.isTopicShow = true;
         },
 
-        
-
         //回答正确
         successFn(topicType){
             this.isTopicShow = false;
             this.isSuccessShow = true;
-            //做过的题目记录一下存储本地缓存（防止用户直接关闭浏览器导致无法记录）；
-            //若有提交，就清除缓存；若无提交，就在回到词卡首页那提交数据
-            // var nowStudyItem = {
-            //         "lexiconId" : this.subjectActData.lexiconId,
-            //         "type": this.subjectActData.type,
-            //         "result": "Y"
-            //     }
-            // var studyRecord = window.localStorage.getItem('studyRecord')?JSON.parse(window.localStorage.getItem('studyRecord')):[];
-            // var isList = false; 
-            // studyRecord.forEach((item,index)=>{
-            //     if(item.listId == this.listId){
-            //         item.studyItem.push(nowStudyItem);
-            //         this.recordData = item; //当前做的题目类型记录，供提交
-            //         isList = true;
-            //     }
-            // })
-            // if(!isList){
-            //     var nowSubjectData = {
-            //         listId:this.listId,
-            //         studyItem:[nowStudyItem]
-            //     }
-            //     studyRecord.push(nowSubjectData);
-            //     this.recordData = nowSubjectData;   //当前做的题目类型记录，供提交
-            // }
-            
-            // window.localStorage.setItem('studyRecord',JSON.stringify(studyRecord));
-
+            //console.log('lexiconData',lexiconData)
             var nowStudyItem = {
                 "lexiconId" : this.subjectActData.lexiconId,
                 "type": this.subjectActData.type,
@@ -267,7 +296,7 @@ export default {
                     });
                 }else{
                     //提交题目记录数据
-                    this.$router.push({ path:'/topicResult'});
+                    this.$router.replace({ path:'/topicResult'});
                 }
                 
             }else{
@@ -322,19 +351,24 @@ export default {
         //提交题目已做
         topicFinish(data,callback){
             var _this = this;
-            _this.$common.axiosFn({
-                method:"post",
-                url:'/lexiconList/submitSubjectResult',
-                data:data,
-                success:(res)=>{
-                    this.subjectDatas.masterLexiconNum++;
-                    callback && callback();
-                },
-                error:(res)=>{
-                    callback && callback();
-                    console.error('提交完成失败',res);
-                }
-            })
+            if(this.$store.state.source=='app'){
+                _this.$http({
+                    method:"post",
+                    url:'/lexiconList/submitSubjectResult',
+                    data:data,
+                    success:(res)=>{
+                        this.subjectDatas.masterLexiconNum++;
+                        callback && callback();
+                    },
+                    error:(res)=>{
+                        callback && callback();
+                        console.error('提交完成失败',res);
+                    }
+                },_this)
+            }else{
+                this.subjectDatas.masterLexiconNum++;
+                callback && callback();
+            }
         },
 
         //打开、关闭提示弹窗
@@ -346,22 +380,29 @@ export default {
         //重新开始,重置题目
         resetSubject(popupStatus){
             var _this = this;
-            _this.$common.axiosFn({
-                method:"post",
-                url:'/lexiconList/resetMasterNum',
-                params:{
-                    listId : this.listId
-                },
-                success:(res)=>{
-                    //this.batchNum = 1;
-                    this.subjectIndex = 0;
-                    this.getTopicList(true);
-                    this.outTipPopFn(popupStatus); //关闭弹窗
-                },
-                error:(res)=>{
-                    console.error('重置题目信息失败',res);
-                }
-            })
+            if(this.$store.state.source=='app'){
+                _this.$http({
+                    method:"post",
+                    url:'/lexiconList/resetMasterNum',
+                    params:{
+                        listId : this.listId
+                    },
+                    success:(res)=>{
+                        //this.batchNum = 1;
+                        this.subjectIndex = 0;
+                        this.getTopicList(true);
+                        this.outTipPopFn(popupStatus); //关闭弹窗
+                    },
+                    error:(res)=>{
+                        console.error('重置题目信息失败',res);
+                    }
+                },_this)
+            }else{
+                this.subjectIndex = 0;
+                this.subjectDatas.masterLexiconNum = 0
+                this.getH5TopicList();
+                this.outTipPopFn(popupStatus); //关闭弹窗
+            }
         },
 
         //退出词卡联系，返回上一页

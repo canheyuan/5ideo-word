@@ -1,16 +1,10 @@
-
 import axios from 'axios' //导入axios读取接口
 
-let config = {
-  subjectTypeActData: null, //当前题目类目数据存储，供词卡结果页获取
-}
-
 //读取数据接口
-function axiosFn(option,vue) {
+var http = (option,vue) => {
   
   let opt = option ? option : null;
   var headerData = vue.$store.state.headerData
-  
   let opt_default = {
     isLoading: true,  //是否加载loading
     isCloseLoading: true,  //是否关闭Loading
@@ -36,7 +30,6 @@ function axiosFn(option,vue) {
     params: opt.params
   }).then((res) => {
     //alert('成功code:'+res.data.code)
-    console.log('res', res);
     if (res.data.code == 0) {
       opt.success && opt.success(res.data);
     }
@@ -48,8 +41,5 @@ function axiosFn(option,vue) {
 
 
 //输出
-export default {
-  config,
-  axiosFn
-}
+export default http
 

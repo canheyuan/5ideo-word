@@ -71,7 +71,7 @@ export default {
             var thisAnswerObj = this.topicData.options[index];
 
             if(answerArr[answerLen] == thisAnswerObj.answer ){
-                console.log('答案准确');
+                //console.log('答案准确');
                 thisAnswerObj.show = false;
                 this.answerList.push(thisAnswerObj.text);
                 //判断是否最后一个

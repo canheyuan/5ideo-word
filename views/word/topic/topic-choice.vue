@@ -30,6 +30,7 @@ export default {
 	name: 'topic01',
 	data () {
 		return {
+             pageLang: this.$store.state.langData.wordTopic,    //语言包
             enterAnimate:false,
             winWidth:0,     //窗口宽度
             winHeight:0,    //窗口高度
@@ -160,9 +161,7 @@ export default {
                         setTimeout(()=>{
                             this.answerResultStatus = 0;
                         },1000)
-                    }
-
-                    
+                    }     
                 }
             });
 

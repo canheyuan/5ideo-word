@@ -14,7 +14,7 @@
             <div :class="['btn',{'hover':topicData.options[0].hover}]" @click="chooseAnswerFn('false')" :id="topicData.options[0].id">
                 <i class="word-icons ico-mistake"></i>
             </div>
-            <span class="txt">或者</span>
+            <span class="txt">{{pageLang.orText[lang]}}</span>
             <div :class="['btn',{'hover':topicData.options[1].hover}]" @click="chooseAnswerFn('true')" :id="topicData.options[1].id">
                 <i class="word-icons ico-correct" ></i>
             </div>
@@ -31,11 +31,15 @@ export default {
 	name: 'topic01',
 	data () {
 		return {
+            pageLang: this.$store.state.langData.wordTopic,    //语言包
             enterAnimate:false,
             shakeClass:false,
             quesData:{},        //元素的位置信息
             drapStatus:0,
 		}
+    },
+    computed: { //计算属性
+        lang(){ return this.$store.state.lan },    //获取语言
     },
     props:{
         topicData:Object

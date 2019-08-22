@@ -2,11 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router);
 
-import wordIndex from '@/views/word-index';
-import topicResult from '@/views/topic-result';
-import topicIndex from '@/views/word-topic';
-
-
+import wordIndex from '@/views/word/word-index';
+import topicResult from '@/views/word/topic-result';
+import topicIndex from '@/views/word/word-topic';
 
 var routers = new Router({
   //mode:'history',
@@ -47,9 +45,10 @@ var routers = new Router({
   ]
 })
 
+
 //全局钩子函数，改变页面title
 routers.beforeEach((to,from,next)=>{
-  //console.log('to',to)
+  console.log('to',to)
   var title = '词卡';
   if(to.meta && to.meta.title){
     title = to.meta.title;

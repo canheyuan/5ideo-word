@@ -1,19 +1,20 @@
 
 /* 头部 */
 .index-word{background:#F0F0F0; min-height:100%;}
-.index-word-head{height:5.76rem; background:url(../images/index_head_bg.png) no-repeat center center; background-size:100% 100%; margin-bottom:.4rem;}
-.per-info{overflow: hidden; padding:1.5rem .3rem 0;}
-.per-info .per-img{float:left; width:2.4rem; height:2.4rem; }
+.index-word-head{height:4.9rem; background:url(../images/index_head_bg.png) no-repeat center center; background-size:100% 100%; margin-bottom:.8rem; position: relative;}
+.per-info{overflow: hidden; padding:1.3rem .3rem 0;}
+.per-info .per-img{float:left; width:2.4rem; height:2.4rem; margin-right:.2rem;}
 .per-info .info{overflow: hidden;}
 .per-info .info h3{font-size:.5rem; line-height:.72rem; height:.72rem; color:#fff; padding-top:.2rem; margin-bottom:.6rem;}
 .per-info .info p{font-size:.26rem; line-height:.42rem; color:#fff; margin-bottom:.15rem;}
-.per-info .info .jd{width:2.8rem; height:.16rem; background:rgba(0, 0, 0, .2); border-radius:.08rem; }
-.per-info .info .jd span{display:inline-block; float:left; border-radius:.8rem; height:.16rem; background:#fff;}
-.learn-btn{display:block; clear:both;  width:3.5rem; height:.8rem; line-height:.76rem; text-align: center; font-size:.4rem; color:#fff; border:.02rem solid #fff; border-radius:.4rem; margin-left:2rem; margin-top:.2rem;}
-.learn-btn i{display:inline-block; width:.16rem; height:.24rem; background:url(../images/ico_tri.png) no-repeat; background-size:100%; margin-left:.2rem;}
+.per-info .info .jd{width:2.8rem; height:.16rem; background:rgba(0, 0, 0, .2); border-radius:.08rem; padding:.02rem; }
+.per-info .info .jd span{display:inline-block; float:left; border-radius:.6rem; height:.12rem; background:#fff;}
+.learn-btn{display:block; width:6.3rem; height:1rem; line-height:1rem; text-align: center; font-size:.34rem; color:#307DBA;  border-radius:.5rem; position: absolute; left:50%; bottom:-.4rem; margin-left:-3.15rem; background:#fff; box-shadow:0 0 .24rem .08rem rgba(0,0,0,.1);}
+.learn-btn i{display:inline-block; width:.3rem; height:.3rem; background:url(../images/ico_tri.png) no-repeat; background-size:100%; margin-left:.2rem; position: relative; top:.04rem;}
+.learn-btn:active{opacity: .8;}
 
 /* 列表 */
-.index-word-ctn{padding:0 .15rem;}
+/* .index-word-ctn{padding:0 .15rem;}
 .index-word-list li{float:left; width:2.2rem; height:2.6rem; background:url(../images/index_item_bg01.png) #fff no-repeat center top; background-size:100% 1.9rem; border-radius:.1rem; overflow: hidden; text-align: center; margin:0 .1rem .3rem;}
 .index-word-list li a{display:block; width:100%; height:100%;}
 .index-word-list li .top{width:100%; height:1.9rem; box-sizing: border-box; padding-top:.15rem;}
@@ -29,5 +30,27 @@
 .index-word-list li.bg04{background-image:url(../images/index_item_bg04.png);}
 .index-word-list li.bg05{background-image:url(../images/index_item_bg05.png);}
 .index-word-list li.bg06{background-image:url(../images/index_item_bg06.png);}
+.index-word-list li.lock .top .icon{opacity:.3;} */
 
+.index-word-ctn{padding:0 .15rem; overflow: hidden;}
+.index-word-list{float:left; width:3.36rem; margin:0 .1rem;}
+.index-word-list li{width:100%; height:4rem; background:url(../images/index_item_bg01.png) #fff no-repeat center top; background-size:100% 3.1rem; border-radius:.1rem; overflow: hidden; text-align: center; margin-bottom:.3rem; }
+.index-word-list li .top{width:100%; height:3.1rem; box-sizing: border-box; padding-top:.7rem; position: relative;;}
+.index-word-list li .top .percent{font-size:.28rem; line-height:.4rem; display:inline-block; position: absolute; top:.2rem; right:.2rem; color:#fff;}
+.index-word-list li .top .icon{display:block; width:1.4rem; height:1.4rem; margin:0 auto;}
+.index-word-list li .top .ico_lock{width:.28rem; height:.34rem; display:inline-block; margin-top:.4rem; position: absolute; bottom:.25rem; left:50%; margin-left:-.14rem;}
+.index-word-list li .top .ico_right{width:.36rem; height:.36rem; display:inline-block; margin-top:.4rem;  position: absolute; bottom:.25rem; left:50%; margin-left:-.18rem;}
+.index-word-list li .top .jd{width:2.5rem; height:.16rem; background:rgba(0, 0, 0, .15); border-radius:.08rem; position: absolute; left:50%; bottom:.35rem; margin-left:-1.25rem; padding:.02rem;}
+.index-word-list li .top .jd span{float:left; border-radius:.06rem; height:.12rem; background:#fff;}
+.index-word-list li .btm{height:.9rem; line-height:.9rem; font-size:.32rem; color:#444444; }
+.index-word-list li.bg01{background-image:url(../images/index_item_bg01.png);}
+.index-word-list li.bg02{background-image:url(../images/index_item_bg02.png);}
+.index-word-list li.bg03{background-image:url(../images/index_item_bg03.png);}
+.index-word-list li.bg04{background-image:url(../images/index_item_bg04.png);}
+.index-word-list li.bg05{background-image:url(../images/index_item_bg05.png);}
+.index-word-list li.bg06{background-image:url(../images/index_item_bg06.png);}
 .index-word-list li.lock .top .icon{opacity:.3;}
+
+.index-word-list li.first{height:4.7rem; background-image:url(../images/index_item_first.png); background-size:100% 3.8rem;}
+.index-word-list li.first .top{padding-top:1rem; height:3.8rem;}
+
